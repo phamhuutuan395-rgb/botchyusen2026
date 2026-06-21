@@ -1,0 +1,32 @@
+name: Run Chyusen Bot
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Tự động chạy mỗi 30 phút một lần
+  workflow_dispatch: # Cho phép bấm nút chạy thử bằng tay
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout mã nguồn
+      uses: actions/checkout@v3
+
+    - name: Cài đặt Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Cài đặt thư viện cần thiết
+      run: |
+        pip install requests beautifulsoup4
+
+    - name: Chạy Tool quét dữ liệu
+      run: python bot.py
+
+    - name: Cập nhật lịch sử để không trùng lặp
+      run: |
+        git config --global user.name "Chyusen Bot"
+        git config --global user.email "bot@github.com"
+        git add history.txt
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Cập nhật lịch sử quét" && git push)
