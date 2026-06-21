@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 # URL trang tổng hợp chyusen uy tín tại Nhật
 TARGET_URL = "https://pokeka-center.com" 
 # Link Webhook Discord bạn lấy từ app Discord (Thay đoạn dưới này bằng link của bạn)
-DISCORD_WEBHOOK_URL = "https://discord.com"
+DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1518107730429345923/xEJ3E3tUZosIECNitOkQwa2x8c_RA_KCTG_GBJdAPgKRLMlA8tZVJ-PrrHw7sQBHbqxz"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
