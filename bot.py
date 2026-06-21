@@ -2,9 +2,9 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-# URL trang tổng hợp chyusen uy tín tại Nhật
+# URL trang tổng hợp thông tin TCG uy tín tại Nhật
 TARGET_URL = "https://pokeka-center.com" 
-# Link Webhook Discord bạn lấy từ app Discord (Thay đoạn dưới này bằng link của bạn)
+# Link Webhook Discord của bạn
 DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1518107730429345923/xEJ3E3tUZosIECNitOkQwa2x8c_RA_KCTG_GBJdAPgKRLMlA8tZVJ-PrrHw7sQBHbqxz"
 
 HEADERS = {
@@ -15,18 +15,22 @@ def get_latest_posts():
     try:
         response = requests.get(TARGET_URL, headers=HEADERS, timeout=15)
         if response.status_code != 200:
+            print(f"Không thể kết nối trang web Nhật. Mã lỗi: {response.status_code}")
             return []
         
         soup = BeautifulSoup(response.text, 'html.parser')
         posts = []
         
-        # Tìm tất cả các thẻ tiêu đề chứa link bài viết trên trang
-        for article in soup.find_all('h2', class_='entry-title'):
-            a_tag = article.find('a')
-            if a_tag:
-                title = a_tag.text.strip()
-                link = a_tag['href']
+        # Cấu trúc quét mở rộng: Lấy tất cả các liên kết bài viết trên trang
+        links = soup.find_all('a')
+        for a_tag in links:
+            title = a_tag.text.strip()
+            link = a_tag.get('href', '')
+            
+            # Chỉ lấy các link bài viết hợp lệ từ trang nguồn, bỏ qua link rác
+            if link.startswith("https://pokeka-center.com") and len(title) > 10:
                 posts.append({"title": title, "link": link})
+                
         return posts
     except Exception as e:
         print(f"Lỗi khi cào dữ liệu: {e}")
@@ -35,10 +39,15 @@ def get_latest_posts():
 def send_to_discord(title, link):
     content = f"🚨 **CÓ SỰ KIỆN CHYUSEN MỚI!** 🚨\n📌 **Tên:** {title}\n🔗 **Link đăng ký:** {link}"
     payload = {"content": content}
-    requests.post(DISCORD_WEBHOOK_URL, json=payload)
+    try:
+        res = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+        print(f"Trạng thái gửi Discord: {res.status_code}")
+    except Exception as e:
+        print(f"Lỗi gửi Discord: {e}")
 
 def main():
     posts = get_latest_posts()
+    print(f"Tìm thấy tổng cộng {len(posts)} bài viết trên trang nguồn.")
     
     # Từ khóa lọc sự kiện rút thăm One Piece và Pokemon bằng tiếng Nhật
     keywords = ["抽選", "ONE PIECE", "ワンピース", "ポケモン", "ポケカ"]
@@ -66,4 +75,8 @@ def main():
                 f.write(f"{link}\n")
 
 if __name__ == "__main__":
+    # 1. Chạy quét dữ liệu thực tế
     main()
+    
+    # 2. ĐOẠN KIỂM TRA ĐƯỜNG TRUYỀN: Ép robot gửi 1 tin nhắn chào mừng về Discord của bạn
+    send_to_discord("HỆ THỐNG ĐÃ KẾT NỐI THÀNH CÔNG 🎉", "Robot săn Chyusen đã trực tuyến! Khi có thông tin mở cổng rút thăm thẻ bài mới từ Nhật Bản, bot sẽ tự động bắn link về phòng chat này."
