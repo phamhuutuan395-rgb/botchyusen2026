@@ -79,4 +79,4 @@ if __name__ == "__main__":
     main()
     
     # 2. ĐOẠN KIỂM TRA ĐƯỜNG TRUYỀN: Ép robot gửi 1 tin nhắn chào mừng về Discord của bạn
-    send_to_discord("HỆ THỐNG ĐÃ KẾT NỐI THÀNH CÔNG 🎉", "Robot săn Chyusen đã trực tuyến! Khi có thông tin mở cổng rút thăm thẻ bài mới từ Nhật Bản, bot sẽ tự động bắn link về phòng chat này."
+    send_to_discord("HỆ THỐNG ĐÃ KẾT NỐI THÀNH CÔNG 🎉", "Robot săn Chyusen đã trực tuyến! Khi có thông tin mở cổng rút thăm thẻ bài mới từ Nhật Bản, bot sẽ tự động bắn link về phòng chat này.")
