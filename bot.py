@@ -127,7 +127,7 @@ def main():
 
         new_links = []
 
-       for source in SOURCES:
+for source in SOURCES:
 
     print(f"\n===== {source['name']} =====")
 
