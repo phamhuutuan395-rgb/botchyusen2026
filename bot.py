@@ -103,10 +103,22 @@ def send_to_discord(title, link):
    
 def main():
 
-    send_to_discord(
-        "TEST",
-        "https://google.com"
-    )
+    keywords = [
+        "抽選",
+        "抽選販売",
+        "応募開始",
+        "応募受付",
+        "受付開始",
+        "販売開始",
+        "当選",
+        "ポケモン",
+        "ポケカ",
+        "ワンピース",
+        "ONE PIECE"
+    ]
+
+    history_file = "history.txt"
+
             "抽選",
             "抽選販売",
             "応募開始",
