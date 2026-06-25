@@ -119,8 +119,7 @@ def main():
 
     history_file = "history.txt"
 
-           
-        sent_links = set()
+    sent_links = set()
 
         if os.path.exists(history_file):
             with open(history_file, "r", encoding="utf-8") as f:
