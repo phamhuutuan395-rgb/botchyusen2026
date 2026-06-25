@@ -107,8 +107,6 @@ def main():
         "TEST",
         "https://google.com"
     )
-
-    return
             "抽選",
             "抽選販売",
             "応募開始",
