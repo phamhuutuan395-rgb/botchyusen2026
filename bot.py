@@ -125,24 +125,24 @@ def main():
         with open(history_file, "r", encoding="utf-8") as f:
             sent_links = set(f.read().splitlines())
 
-        new_links = []
+    new_links = []
 
-for source in SOURCES:
+    for source in SOURCES:
 
-    print(f"\n===== {source['name']} =====")
+        print(f"\n===== {source['name']} =====")
 
-    posts = get_latest_posts(source["url"])
+        posts = get_latest_posts(source["url"])
 
-    print(f"Tìm thấy {len(posts)} bài")
+        print(f"Tìm thấy {len(posts)} bài")
 
-    for post in posts:
+        for post in posts:
 
-        title_upper = post["title"].upper()
+             title_upper = post["title"].upper()
 
-        if (
-            any(kw.upper() in title_upper for kw in keywords)
-            and post["link"] not in sent_links
-        ):
+             if (
+                 any(kw.upper() in title_upper for kw in keywords)
+                 and post["link"] not in sent_links
+             ):
 
             print(f"Phát hiện chyusen mới: {post['title']}")
 
