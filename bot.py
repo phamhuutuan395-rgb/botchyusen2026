@@ -3,9 +3,30 @@ import requests
 from bs4 import BeautifulSoup
 
 # URL trang tổng hợp thông tin TCG uy tín tại Nhật
-TARGET_URL = "https://pokeka-center.com" 
+SOURCES = [
+    {
+        "name": "Pokemon Center",
+        "url": "https://www.pokemoncenter-online.com"
+    },
+
+    {
+        "name": "Joshin",
+        "url": "https://joshinweb.jp"
+    },
+
+    {
+        "name": "Bic Camera",
+        "url": "https://www.biccamera.com"
+    },
+
+    {
+        "name": "Yodobashi",
+        "url": "https://www.yodobashi.com"
+    }
+]
 # Link Webhook Discord của bạn
-DISCORD_WEBHOOK_URL = "https://discordapp.com"
+DISCORD_WEBHOOK_URL = "DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/ID/TOKEN"
+
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -50,7 +71,19 @@ def main():
     print(f"Tìm thấy tổng cộng {len(posts)} bài viết trên trang nguồn.")
     
     # Từ khóa lọc sự kiện rút thăm One Piece và Pokemon bằng tiếng Nhật
-    keywords = ["抽選", "ONE PIECE", "ワンピース", "ポケモン", "ポケカ"]
+    keywords = [
+ "抽選",
+ "抽選販売",
+ "応募開始",
+ "応募受付",
+ "受付開始",
+ "販売開始",
+ "当選",
+ "ポケモン",
+ "ポケカ",
+ "ワンピース",
+ "ONE PIECE"
+]
     
     # Đọc danh sách các bài viết cũ đã thông báo để tránh trùng lặp
     history_file = "history.txt"
