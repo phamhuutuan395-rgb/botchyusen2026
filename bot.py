@@ -34,7 +34,43 @@ HEADERS = {
 
 def get_latest_posts(url):
     try:
-        response = requests.get(url, headers=HEADERS, timeout=15)
+        response = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=15
+        )
+
+        if response.status_code != 200:
+            print(
+                f"Không thể kết nối. Mã lỗi: {response.status_code}"
+            )
+            return []
+
+        soup = BeautifulSoup(
+            response.text,
+            "html.parser"
+        )
+
+        posts = []
+
+        links = soup.find_all("a")
+
+        for a_tag in links:
+            title = a_tag.text.strip()
+            link = a_tag.get("href", "")
+
+            if len(title) > 10:
+                posts.append({
+                    "title": title,
+                    "link": link
+                })
+
+        return posts
+
+    except Exception as e:
+        print(f"Lỗi khi cào dữ liệu: {e}")
+        return []
+   
 
 if response.status_code != 200:
     print(f"Không thể kết nối trang web Nhật. Mã lỗi: {response.status_code}")
