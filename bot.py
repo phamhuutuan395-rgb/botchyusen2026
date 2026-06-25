@@ -127,21 +127,29 @@ def main():
 
         new_links = []
 
-        for post in posts:
+       for source in SOURCES:
 
-            title_upper = post["title"].upper()
+    print(f"\n===== {source['name']} =====")
 
-            if (
-                any(kw.upper() in title_upper for kw in keywords)
-                and post["link"] not in sent_links
-            ):
+    posts = get_latest_posts(source["url"])
 
-                print(f"Phát hiện chyusen mới: {post['title']}")
+    print(f"Tìm thấy {len(posts)} bài")
 
-                send_to_discord(
-                    post["title"],
-                    post["link"]
-                )
+    for post in posts:
+
+        title_upper = post["title"].upper()
+
+        if (
+            any(kw.upper() in title_upper for kw in keywords)
+            and post["link"] not in sent_links
+        ):
+
+            print(f"Phát hiện chyusen mới: {post['title']}")
+
+            send_to_discord(
+                post["title"],
+                post["link"]
+            )
 
  
     # Lưu các link mới vào lịch sử để lần sau không bắn trùng
