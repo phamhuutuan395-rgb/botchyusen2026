@@ -103,13 +103,12 @@ def send_to_discord(title, link):
    
 def main():
 
-    for source in SOURCES:
+    send_to_discord(
+        "TEST",
+        "https://google.com"
+    )
 
-        print(f"\n===== {source['name']} =====")
-
-        posts = get_latest_posts(source["url"])
-
-        print(f"Tìm thấy {len(posts)} bài")
+    return
 
         keywords = [
             "抽選",
