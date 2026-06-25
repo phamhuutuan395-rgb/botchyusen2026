@@ -109,8 +109,6 @@ def main():
     )
 
     return
-
-        keywords = [
             "抽選",
             "抽選販売",
             "応募開始",
