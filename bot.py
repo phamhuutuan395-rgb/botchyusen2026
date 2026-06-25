@@ -127,29 +127,29 @@ def main():
 
     new_links = []
 
-    for source in SOURCES:
+   for source in SOURCES:
 
-        print(f"\n===== {source['name']} =====")
+    print(f"\n===== {source['name']} =====")
 
-        posts = get_latest_posts(source["url"])
+    posts = get_latest_posts(source["url"])
 
-        print(f"Tìm thấy {len(posts)} bài")
+    print(f"Tìm thấy {len(posts)} bài")
 
-       for post in posts:
+    for post in posts:
 
-    title_upper = post["title"].upper()
+        title_upper = post["title"].upper()
 
-    if (
-        any(kw.upper() in title_upper for kw in keywords)
-        and post["link"] not in sent_links
-    ):
+        if (
+            any(kw.upper() in title_upper for kw in keywords)
+            and post["link"] not in sent_links
+        ):
 
-        print(f"Phát hiện chyusen mới: {post['title']}")
+            print(f"Phát hiện chyusen mới: {post['title']}")
 
-        send_to_discord(
-            post["title"],
-            post["link"]
- 
+            send_to_discord(
+                post["title"],
+                post["link"]
+            )
     # Lưu các link mới vào lịch sử để lần sau không bắn trùng
     if new_links:
         with open(history_file, "a", encoding="utf-8") as f:
