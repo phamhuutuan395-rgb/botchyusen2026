@@ -69,8 +69,13 @@ def send_to_discord(title, link):
 def main():
     posts = get_latest_posts()
     print(f"Tìm thấy tổng cộng {len(posts)} bài viết trên trang nguồn.")
-    
+    for post in posts[:20]:
+        print(post)
+
     # Từ khóa lọc sự kiện rút thăm One Piece và Pokemon bằng tiếng Nhật
+    keywords = ["抽選", "ONE PIECE", "ワンピース", "ポケモン", "ポケカ"]
+    
+   
     keywords = [
  "抽選",
  "抽選販売",
