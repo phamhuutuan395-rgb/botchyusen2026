@@ -70,10 +70,7 @@ def get_latest_posts(url):
     except Exception as e:
         print(f"Lỗi khi cào dữ liệu: {e}")
         return []
-if response.status_code != 200:
-    print(f"Không thể kết nối trang web Nhật. Mã lỗi: {response.status_code}")
-    return []
-        soup = BeautifulSoup(response.text, 'html.parser')
+
         posts = []
         
         # Cấu trúc quét mở rộng: Lấy tất cả các liên kết bài viết trên trang
