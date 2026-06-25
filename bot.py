@@ -106,29 +106,48 @@ def main():
         posts = get_latest_posts(source["url"])
 
         print(f"Tìm thấy {len(posts)} bài")
-    keywords = [
- "抽選",
- "抽選販売",
- "応募開始",
- "応募受付",
- "受付開始",
- "販売開始",
- "当選",
- "ポケモン",
- "ポケカ",
- "ワンピース",
- "ONE PIECE"
-]
-    
-    # Đọc danh sách các bài viết cũ đã thông báo để tránh trùng lặp
-    history_file = "history.txt"
-    sent_links = set()
-    if os.path.exists(history_file):
-        with open(history_file, "r", encoding="utf-8") as f:
-            sent_links = set(f.read().splitlines())
 
-    new_links = []
+        keywords = [
+            "抽選",
+            "抽選販売",
+            "応募開始",
+            "応募受付",
+            "受付開始",
+            "販売開始",
+            "当選",
+            "ポケモン",
+            "ポケカ",
+            "ワンピース",
+            "ONE PIECE"
+        ]
 
+        history_file = "history.txt"
+
+        sent_links = set()
+
+        if os.path.exists(history_file):
+            with open(history_file, "r", encoding="utf-8") as f:
+                sent_links = set(f.read().splitlines())
+
+        new_links = []
+
+        for post in posts:
+
+            title_upper = post["title"].upper()
+
+            if (
+                any(kw.upper() in title_upper for kw in keywords)
+                and post["link"] not in sent_links
+            ):
+
+                print(f"Phát hiện chyusen mới: {post['title']}")
+
+                send_to_discord(
+                    post["title"],
+                    post["link"]
+                )
+
+                new_links.append(post["link"])
 for post in posts:
 
     title_upper = post["title"].upper()
