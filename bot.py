@@ -25,17 +25,17 @@ SOURCES = [
     }
 ]
 # Link Webhook Discord của bạn
-DISCORD_WEBHOOK_URL = "DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/ID/TOKEN"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/ID/TOKEN"
 
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 
-def get_latest_posts():
+def get_latest_posts(url):
     try:
-        response = requests.get(TARGET_URL, headers=HEADERS, timeout=15)
-        if response.status_code != 200:
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        if len(title) > 10:
             print(f"Không thể kết nối trang web Nhật. Mã lỗi: {response.status_code}")
             return []
         
@@ -67,15 +67,19 @@ def send_to_discord(title, link):
         print(f"Lỗi gửi Discord: {e}")
 
 def main():
-    posts = get_latest_posts()
+   for source in SOURCES:
+
+    print(f"\n===== {source['name']} =====")
+
+    posts = get_latest_posts(source["url"])
+
+    print(f"Tìm thấy {len(posts)} bài")
+
+    for post in posts[:20]:
+        print(post)
     print(f"Tìm thấy tổng cộng {len(posts)} bài viết trên trang nguồn.")
     for post in posts[:20]:
         print(post)
-
-    # Từ khóa lọc sự kiện rút thăm One Piece và Pokemon bằng tiếng Nhật
-    keywords = ["抽選", "ONE PIECE", "ワンピース", "ポケモン", "ポケカ"]
-    
-   
     keywords = [
  "抽選",
  "抽選販売",
@@ -103,7 +107,10 @@ def main():
         # Nếu tiêu đề chứa từ khóa và chưa từng gửi thông báo trước đây
         if any(kw.upper() in title_upper for kw in keywords) and post["link"] not in sent_links:
             print(f"Phát hiện chyusen mới: {post['title']}")
-            send_to_discord(post["title"], post["link"])
+            res = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+
+print("Discord status:", res.status_code)
+print(res.text)
             new_links.append(post["link"])
             
     # Lưu các link mới vào lịch sử để lần sau không bắn trùng
