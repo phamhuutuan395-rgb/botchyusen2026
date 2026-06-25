@@ -24,9 +24,17 @@ jobs:
     - name: Chạy Tool quét dữ liệu
       run: python bot.py
 
-    - name: Cập nhật lịch sử để không trùng lặp
-      run: |
-        git config --global user.name "Chyusen Bot"
-        git config --global user.email "bot@github.com"
-        git add history.txt
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Cập nhật lịch sử quét" && git push)
+   - name: Cập nhật lịch sử để không trùng lặp
+  run: |
+    git config --global user.name "Chyusen Bot"
+    git config --global user.email "bot@github.com"
+
+    git add history.txt
+
+    if ! git diff --cached --quiet; then
+      git commit -m "Cập nhật lịch sử quét"
+
+      git pull --rebase origin main
+
+      git push
+    fi
