@@ -100,8 +100,7 @@ def send_to_discord(title, link):
 
     print("Discord status:", res.status_code)
     print("Discord response:", res.text)
-    except Exception as e:
-        print("Lỗi Discord:", e)
+   
 def main():
 
     for source in SOURCES:
