@@ -46,7 +46,7 @@ def get_latest_posts(url):
             )
             return []
 
-                soup = BeautifulSoup(
+        soup = BeautifulSoup(
             response.text,
             "html.parser"
         )
