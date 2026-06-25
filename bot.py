@@ -35,10 +35,10 @@ HEADERS = {
 def get_latest_posts(url):
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
-        if len(title) > 10:
-            print(f"Không thể kết nối trang web Nhật. Mã lỗi: {response.status_code}")
-            return []
-        
+
+if response.status_code != 200:
+    print(f"Không thể kết nối trang web Nhật. Mã lỗi: {response.status_code}")
+    return []
         soup = BeautifulSoup(response.text, 'html.parser')
         posts = []
         
@@ -49,7 +49,7 @@ def get_latest_posts(url):
             link = a_tag.get('href', '')
             
             # Chỉ lấy các link bài viết hợp lệ từ trang nguồn, bỏ qua link rác
-            if link.startswith("https://pokeka-center.com") and len(title) > 10:
+            if len(title) > 10:
                 posts.append({"title": title, "link": link})
                 
         return posts
@@ -67,19 +67,14 @@ def send_to_discord(title, link):
         print(f"Lỗi gửi Discord: {e}")
 
 def main():
-   for source in SOURCES:
 
-    print(f"\n===== {source['name']} =====")
+    for source in SOURCES:
 
-    posts = get_latest_posts(source["url"])
+        print(f"\n===== {source['name']} =====")
 
-    print(f"Tìm thấy {len(posts)} bài")
+        posts = get_latest_posts(source["url"])
 
-    for post in posts[:20]:
-        print(post)
-    print(f"Tìm thấy tổng cộng {len(posts)} bài viết trên trang nguồn.")
-    for post in posts[:20]:
-        print(post)
+        print(f"Tìm thấy {len(posts)} bài")
     keywords = [
  "抽選",
  "抽選販売",
@@ -107,9 +102,18 @@ def main():
         # Nếu tiêu đề chứa từ khóa và chưa từng gửi thông báo trước đây
         if any(kw.upper() in title_upper for kw in keywords) and post["link"] not in sent_links:
             print(f"Phát hiện chyusen mới: {post['title']}")
-            res = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+           send_to_discord(post["title"], post["link"])
 
-print("Discord status:", res.status_code)
+ content = f"..."
+
+    payload = {"content": content}
+
+    res = requests.post(
+        DISCORD_WEBHOOK_URL,
+        json=payload
+    )
+
+    print("Discord status:", res.status_code)
 print(res.text)
             new_links.append(post["link"])
             
