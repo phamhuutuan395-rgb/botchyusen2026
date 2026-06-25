@@ -147,25 +147,7 @@ def main():
                     post["link"]
                 )
 
-                new_links.append(post["link"])
-for post in posts:
-
-    title_upper = post["title"].upper()
-
-    if (
-        any(kw.upper() in title_upper for kw in keywords)
-        and post["link"] not in sent_links
-    ):
-
-        print(f"Phát hiện chyusen mới: {post['title']}")
-
-        send_to_discord(
-            post["title"],
-            post["link"]
-        )
-
-        new_links.append(post["link"])
-            
+ 
     # Lưu các link mới vào lịch sử để lần sau không bắn trùng
     if new_links:
         with open(history_file, "a", encoding="utf-8") as f:
