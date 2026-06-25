@@ -89,14 +89,27 @@ def get_latest_posts(url):
         return []
 
 def send_to_discord(title, link):
-    content = f"🚨 **CÓ SỰ KIỆN CHYUSEN MỚI!** 🚨\n📌 **Tên:** {title}\n🔗 **Link đăng ký:** {link}"
-    payload = {"content": content}
-    try:
-        res = requests.post(DISCORD_WEBHOOK_URL, json=payload)
-        print(f"Trạng thái gửi Discord: {res.status_code}")
-    except Exception as e:
-        print(f"Lỗi gửi Discord: {e}")
 
+    content = (
+        f"🚨 CÓ SỰ KIỆN CHYUSEN MỚI! 🚨\n"
+        f"📌 {title}\n"
+        f"🔗 {link}"
+    )
+
+    payload = {"content": content}
+
+    try:
+        res = requests.post(
+            DISCORD_WEBHOOK_URL,
+            json=payload,
+            timeout=15
+        )
+
+        print("Discord status:", res.status_code)
+        print("Discord response:", res.text)
+
+    except Exception as e:
+        print("Lỗi Discord:", e)
 def main():
 
     for source in SOURCES:
