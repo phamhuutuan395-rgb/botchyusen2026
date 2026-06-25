@@ -128,25 +128,24 @@ def main():
             sent_links = set(f.read().splitlines())
 
     new_links = []
-    for post in posts:
-        title_upper = post["title"].upper()
-        # Nếu tiêu đề chứa từ khóa và chưa từng gửi thông báo trước đây
-        if any(kw.upper() in title_upper for kw in keywords) and post["link"] not in sent_links:
-            print(f"Phát hiện chyusen mới: {post['title']}")
-           send_to_discord(post["title"], post["link"])
 
- content = f"..."
+for post in posts:
 
-    payload = {"content": content}
+    title_upper = post["title"].upper()
 
-    res = requests.post(
-        DISCORD_WEBHOOK_URL,
-        json=payload
-    )
+    if (
+        any(kw.upper() in title_upper for kw in keywords)
+        and post["link"] not in sent_links
+    ):
 
-    print("Discord status:", res.status_code)
-print(res.text)
-            new_links.append(post["link"])
+        print(f"Phát hiện chyusen mới: {post['title']}")
+
+        send_to_discord(
+            post["title"],
+            post["link"]
+        )
+
+        new_links.append(post["link"])
             
     # Lưu các link mới vào lịch sử để lần sau không bắn trùng
     if new_links:
